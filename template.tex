@@ -131,127 +131,93 @@ $^{2}$ \quad Affiliation 2; e-mail@e-mail.com}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\setcounter{section}{-1} %% Remove this when starting to work on the template.
-\section{How to Use this Template}
-The template details the sections that can be used in a manuscript. Note that the order and names of article sections may differ from the requirements of the journal (e.g., the positioning of the Materials and Methods section). Please check the instructions for authors page of the journal to verify the correct order and names. For any questions, please contact the editorial office of the journal or support@mdpi.com. For LaTeX related questions please contact latex@mdpi.com.
-%The order of the section titles is: Introduction, Materials and Methods, Results, Discussion, Conclusions for these journals: aerospace,algorithms,antibodies,antioxidants,atmosphere,axioms,biomedicines,carbon,crystals,designs,diagnostics,environments,fermentation,fluids,forests,fractalfract,informatics,information,inventions,jfmk,jrfm,lubricants,neonatalscreening,neuroglia,particles,pharmaceutics,polymers,processes,technologies,viruses,vision
-
 \section{Introduction}
 The introduction should briefly place the study in a broad context and highlight why it is important. It should define the purpose of the work and its significance. The current state of the research field should be reviewed carefully and key publications cited. Please highlight controversial and diverging hypotheses when necessary. Finally, briefly mention the main aim of the work and highlight the principal conclusions. As far as possible, please keep the introduction comprehensible to scientists outside your particular field of research. Citing a journal paper \cite{ref-journal}. And now citing a book reference \cite{ref-book}. Please use the command \citep{ref-journal} for the following MDPI journals, which use author-date citation: Administrative Sciences, Arts, Econometrics, Economies, Genealogy, Humanities, IJFS, JRFM, Languages, Laws, Religions, Risks, Social Sciences.
- 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Results}
-
-This section may be divided by subheadings. It should provide a concise and precise description of the experimental results, their interpretation as well as the experimental conclusions that can be drawn.
-\begin{quote}
-This section may be divided by subheadings. It should provide a concise and precise description of the experimental results, their interpretation as well as the experimental conclusions that can be drawn.
-\end{quote}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Subsection}
-\unskip
-\subsubsection{Subsubsection}
-
-Bulleted lists look like this:
-\begin{itemize}[leftmargin=*,labelsep=5.8mm]
-\item	First bullet
-\item	Second bullet
-\item	Third bullet
-\end{itemize}
-
-Numbered lists can be added as follows:
-\begin{enumerate}[leftmargin=*,labelsep=4.9mm]
-\item	First item 
-\item	Second item
-\item	Third item
-\end{enumerate}
-
-The text continues here.
-
-\subsection{Figures, Tables and Schemes}
-
-All figures and tables should be cited in the main text as Figure 1, Table 1, etc.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=2 cm]{Definitions/logo-mdpi}
-\caption{This is a figure, Schemes follow the same formatting. If there are multiple panels, they should be listed as: (\textbf{a}) Description of what is contained in the first panel. (\textbf{b}) Description of what is contained in the second panel. Figures should be placed in the main text near to the first time they are cited. A caption on a single line should be centered.}
-\end{figure}   
- 
-Text
-
-Text
-
-\begin{table}[H]
-\caption{This is a table caption. Tables should be placed in the main text near to the first time they are cited.}
-\centering
-%% \tablesize{} %% You can specify the fontsize here, e.g., \tablesize{\footnotesize}. If commented out \small will be used.
-\begin{tabular}{ccc}
-\toprule
-\textbf{Title 1}	& \textbf{Title 2}	& \textbf{Title 3}\\
-\midrule
-entry 1		& data			& data\\
-entry 2		& data			& data\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Text
-
-Text
-
-%\begin{listing}[H]
-%\caption{Title of the listing}
-%\rule{\textwidth}{1pt}
-%\raggedright Text of the listing. In font size footnotesize, small, or normalsize. Preferred format: left aligned and single spaced. Preferred border format: top border line and bottom border line.
-%\rule{\textwidth}{1pt}
-%\end{listing}
-
-
-\subsection{Formatting of Mathematical Components}
-
-This is an example of an equation:
-
+\section{Main result}
+In airlines, the spatial distribution of aircraft stations is a non-Euclidean structure, that is, the number of stations around each station is uncertain, and even if two stations are adjacent, they may not actually communicate with each other, resulting in no spatial relationship between their traffic. Therefore, traditional convolutional neural network (CNN) cannot accurately obtain their spatial information. At this point, multiple sites can be abstracted into A graph (see Figure \ref{fig:stations}). Features are extracted from the original input data to obtain the result of feature mapping of multiple channels. The intercommunication relationship between each site is represented by adjacency matrix A.
+\begin{figure}[htp]
+    \centering
+    % \includegraphics[width=8 cm]{Definitions/logo/-mdpi}
+    \caption{The distribution of the stations.}
+    \label{fig:stations}
+\end{figure}
+\subsection{The definition of the problem } 
+The problem of airline passenger flow prediction can be described as follows: the historical flow data of each station $X_{t-s}, X_{t-s+1},  X_{t-2}, \cdots,  X_{t-1}$ (s is the time step) can be used to predict the flow $X_{t}$ of the next period. 
+The formula is described as
 \begin{equation}
-a + b = c
+    X_{t} = F([ X_{t-s}, X_{t-s+1}, \cdots, X_{t-2}, X_{t-1}])
 \end{equation}
-%% If the documentclass option "submit" is chosen, please insert a blank line before and after any math environment (equation and eqnarray environments). This ensures correct linenumbering. The blank line should be removed when the documentclass option is changed to "accept" because the text following an equation should not be a new paragraph. 
-
-Please punctuate equations as regular text. Theorem-type environments (including propositions, lemmas, corollaries etc.) can be formatted as follows:
-%% Example of a theorem:
-\begin{Theorem}
-Example text of a theorem.
-\end{Theorem}
-
-The text continues here. Proofs must be formatted as follows:
-
-%% Example of a proof:
-\begin{proof}[Proof of Theorem 1]
-Text of the proof. Note that the phrase `of Theorem 1' is optional if it is clear which theorem is being referred to.
-\end{proof}
-The text continues here.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Discussion}
-
-Authors should discuss the results and how they can be interpreted in perspective of previous studies and of the working hypotheses. The findings and their implications should be discussed in the broadest context possible. Future research directions may also be highlighted.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Materials and Methods}
-
-Materials and Methods should be described with sufficient details to allow others to replicate and build on published results. Please note that publication of your manuscript implicates that you must make all materials, data, computer code, and protocols associated with the publication available to readers. Please disclose at the submission stage any restrictions on the availability of materials or information. New methods and protocols should be described in detail while well-established methods can be briefly described and appropriately cited.
-
-Research manuscripts reporting large datasets that are deposited in a publicly available database should specify where the data have been deposited and provide the relevant accession numbers. If the accession numbers have not yet been obtained at the time of submission, please state that they will be provided during review. They must be provided prior to publication.
-
-Interventionary studies involving animals or humans, and other studies require ethical approval must list the authority that provided approval and the corresponding ethical approval code. 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusions}
-
-This section is not mandatory, but can be added to the manuscript if the discussion is unusually long or complex.
-
+where, $X$ is the site characteristics at each time step, and $F$ is a nonlinear function.
+\par In the actual traffic system, the road network is regarded as A directed graph $G = (q, V, A)$. Each sensor in the road network is regarded as a node vi V and its value Q R is a scalar. V RN and N is the number of sensors. 
+The flow relationship between nodes consists of adjacency matrix A that is, the element Aij in A represents the connection relationship between node VI and vJ.
+\subsection{The description of the GCN} 
+When dealing with the structure of the graph, it is necessary to obtain its Laplace matrix L first, which is generally defined in the following ways:
+\begin{equation}
+    L=D^{-\frac{1}{2}}(D-A) D^{-\frac{1}{2}}=I_{N}-D^{-\frac{1}{2}} A D^{-\frac{1}{2}}
+\end{equation}
+Where, $I_{N}$is the identity matrix of $N×N$; Degree matrix $D$ is defined as $D_{i i}=\sum_{i} A_{i j}^{i}$. Decompose the eigenvalue of $L$ to get $L = \mathrm{L}=\mathrm{U} \Lambda \mathrm{U}^{\mathrm{T}}$. $\Lambda$ is made up of L eigenvalues of diagonal matrix. $\mathrm{U}=\left\{\mathrm{u}_{1}, \mathrm{u}_{2}, \ldots, \mathrm{u}_{\mathrm{N}}\right\}$ is composed of the eigenvector L, and it is an orthonormal basis for $\mathrm{R}^{\mathrm{N}}$.
+\par The spectral convolution theory in the graph structure has been supplemented and perfected in the paper. The convolution operation of convolution kernel $G$ and input signal $X$ in the time domain can be converted into the inner product form in the frequency domain.
+\begin{equation}
+    \left.g^{*} x=U\left(U^{\mathrm{T}} g\right) \odot\left(U^{\mathrm{T}} \boldsymbol{x}\right)\right)=U_{g_{\theta}}(A) U^{\mathrm{T}} x
+\end{equation}
+where $g_{s}(\Lambda)=U^{T} g=\operatorname{diag}(\theta), \theta \in R^{N}$, $\odot$ represents the hadamar product, $U^{T}g$means mapping $g$ to the frequency domain space based on $U$. Due to $g_{\theta}$ high computational complexity, so using hierarchical linear model constraints and the chebyshev polynomial to approximate calculation. In this paper, The simplified first order polynomial form of $g*x$ is adopted.
+\begin{equation}
+    g^{*} x=U_{g_{\theta}} U_{x}^{\mathrm{T}} \approx \theta\left(I_{N}+D^{-1 / 2} A D^{-1 / 2}\right) x
+\end{equation}
+where $\widetilde{D}^{-1 / 2} \widetilde{A} \widetilde{D}^{-1 / 2}=I_{N}+D^{-1 / 2} A D^{-1 / 2} \quad \tilde{A}=I_{N}+A $, ${D}=\sum_{i} \widetilde{A}_{i j}$, Therefore, the output of layer $L$ is
+\begin{equation}
+    H^{(l)}=\sigma\left(\widetilde{D}^{-\frac{1}{2}} \widetilde{A} \widetilde{D}^{-\frac{1}{2}} H^{(l-1)} W^{(l)}\right.
+\end{equation}
+where $\delta$ is the activation function, $\widetilde{W}^{(l)}=\theta^{(l-1)} W^{(l)} \quad \boldsymbol{\theta}^{(l-1)} \in \boldsymbol{R}^{c^{(1-l)} \times F^{(l-1)}}, \boldsymbol{W}^{(l)} \in \boldsymbol{R}^{F^{(l-1)} \times c^{(l)}}$,  $C^{(L-1)}$ is the output dimension of the $(L-1)$ layer, and $F^{(L-1)}$ is the characteristic vector size of each dimension. Therefore
+\begin{equation}
+    H^{(l)}=\sigma\left(\widetilde{D}^{-\frac{1}{2}} \widetilde{A} \widetilde{D}^{-\frac{1}{2}} H^{(l-1)} \widetilde{W}^{(l)}\right)
+\end{equation}
+\par At present, there is no effective measurement method for the calculation of adjacency matrix $A$. Most scholars use heuristic methods, that is, based on the Euclidean distance or Markov distance between sensors to determine the element value corresponding to the adjacency matrix. However, these methods all require manual calculation of the distance relationship between the sensors in advance. In this paper, the data-driven method is adopted to calculate the adjacency matrix, and $A = D$, then the formula can be written as:
+\begin{equation}
+    \left.H^{(l)}=\sigma / \widetilde{A} H^{(l-1)} \widetilde{W}^{(l)}\right)
+    \label{equ:hl}
+\end{equation}
+The element value of matrix $A$ is learned from the sample data, that is, the matrix is composed of trainable parameters. The data-driven approach is more realistic than the heuristic approach. Therefore, the L layer of the convolutional neural network is constructed in accordance with Formula \ref{equ:hl}. It should be noted that the initial $A$ maki is the same for each layer of the convolutional network, and the parameters are updated only when the error is propagated backwards.
+\subsection{the import of LSTM}
+It is found that Recurrent Neural networks (RNN) are widely used in sequential data such as natural language and image processing, which have a significant effect. Since then, various types of circulating neural networks have been proposed. Aiming at the problem of air passenger flow prediction, this paper introduces the long and short term memory network, which can extract the characteristic information of the input sequence and find its internal relation, so as to improve the prediction accuracy of the model.
+\par The LSTM network structure used in this paper is shown as follows
+\begin{figure}
+    \centering
+    \includegraphics[width=8 cm]{./imgs/LSTMpng.png}
+    \caption{The structure of LSTM.}
+\end{figure}
+The network model mainly accepts three inputs: $X$, $H$ and $C$ represent the current state, hidden layer state and cell state, respectively.
+\par LSTM mainly realizes the management of long and short term memory through three gating units. The first step in the LSTM is to determine what information needs to be thrown out of the cell state. This decision is made by a sigmoID layer called the "Forget Gate." Input x and h, output a number between 0 and 1. 1 means "keep the value completely", while 0 means "throw the value away completely". The formula of forgetting gate is as follows:
+\begin{equation}
+    f_{t}=\sigma\left(W_{f} \cdot\left[h_{t-1}, x_{t}\right]+b_{f}\right)
+\end{equation}
+where $W_{f}$ and $b_{f}$ are the parameters to be learned, and $\sigma$ is the sigmod activation function.
+\par The second step is to determine what information we need to store in the Cell State. There are two parts to this question. First, a sigmod layer calls the "Input Gate" to determine which data needs to be updated. Then, a tanh layer creates a vector C1 for the new candidate values, which can be added to the state.
+\begin{equation}
+    \begin{aligned}
+    i_{t} &=\sigma\left(W_{i} \cdot\left[h_{t-1}, x_{t}\right]+b_{i}\right) \\
+    \tilde{C}_{t} &=\tanh \left(W_{C} \cdot\left[h_{t-1}, x_{t}\right]+b_{C}\right)
+    \end{aligned}
+\end{equation}
+\par After deciding what needs to be forgotten and what needs to be added, the old cell state Ct-1 can be updated to the new cell state Ct.
+\begin{equation}
+    C_{t}=f_{t} * C_{t-1}+i_{t} * \tilde{C}_{t}
+\end{equation}
+\par Finally, we need to decide what to export. This output is based on our cell state, but will be a filtered part of the value. First, we run an output gate to determine which part of the cell state we are going to output. Then we put the cell state into the tanh (pressing the value between -1 and 1), and finally we multiply it by the output of the output gate.
+\begin{equation}
+    \begin{array}{l}
+    o_{t}=\sigma\left(W_{o}\left[h_{t-1}, x_{t}\right]+b_{o}\right) \\
+    h_{t}=o_{t} * \tanh \left(C_{t}\right)
+    \end{array}
+\end{equation}
+\subsection{The description of algorithm}
+The network structure based on GCN-LSTM model proposed in this paper is shown in the figure. The prediction model is composed of multiple layers of GCN and an LSTM model. Among them, GCN model is mainly used to extract the features of graph networks, while LSTM network model is mainly used to solve the long-term and short-term dependence between data. 
+\par In this paper, features of different graph networks are extracted through multiple GCN, and the extracted features are transferred into LSTM, and the timing characteristics of sequence data are analyzed through LSTM, and a more accurate prediction value is given through multi-layer full connection layer.
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=8 cm]{./imgs/GCN-LSTM.png}
+    \caption{Overall structure of GCN-LSTM model (original features of air passenger flow data are extracted by using first-order approximate GCN, and output features are analyzed by LSTM for long-term and short-term sequence characteristics, and then predicted values are obtained).}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Patents}
 This section is not mandatory, but may be added if there are patents resulting from the work reported in this manuscript.
@@ -312,20 +278,20 @@ All appendix sections must be cited in the main text. In the appendixes, Figures
 %=====================================
 % References, variant A: external bibliography
 %=====================================
-%\externalbibliography{yes}
-%\bibliography{your_external_BibTeX_file}
+\externalbibliography{yes}
+\bibliography{mybib}
 
 %=====================================
 % References, variant B: internal bibliography
 %=====================================
-\begin{thebibliography}{999}
-% Reference 1
-\bibitem[Author1(year)]{ref-journal}
-Author1, T. The title of the cited article. {\em Journal Abbreviation} {\bf 2008}, {\em 10}, 142--149.
-% Reference 2
-\bibitem[Author2(year)]{ref-book}
-Author2, L. The title of the cited contribution. In {\em The Book Title}; Editor1, F., Editor2, A., Eds.; Publishing House: City, Country, 2007; pp. 32--58.
-\end{thebibliography}
+% \begin{thebibliography}{999}
+% % Reference 1
+% \bibitem[Author1(year)]{ref-journal}
+% Author1, T. The title of the cited article. {\em Journal Abbreviation} {\bf 2008}, {\em 10}, 142--149.
+% % Reference 2
+% \bibitem[Author2(year)]{ref-book}
+% Author2, L. The title of the cited contribution. In {\em The Book Title}; Editor1, F., Editor2, A., Eds.; Publishing House: City, Country, 2007; pp. 32--58.
+% \end{thebibliography}
 
 % The following MDPI journals use author-date citation: Arts, Econometrics, Economies, Genealogy, Humanities, IJFS, JRFM, Laws, Religions, Risks, Social Sciences. For those journals, please follow the formatting guidelines on http://www.mdpi.com/authors/references
 % To cite two works by the same author: \citeauthor{ref-journal-1a} (\citeyear{ref-journal-1a}, \citeyear{ref-journal-1b}). This produces: Whittaker (1967, 1975)
