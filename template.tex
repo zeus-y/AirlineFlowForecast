@@ -98,10 +98,10 @@ $^{2}$ \quad Affiliation 2; e-mail@e-mail.com}
 %\conference{} % An extended version of a conference paper
 
 % Abstract (Do not insert blank lines, i.e. \\) 
-\abstract{A single paragraph of about 200 words maximum. For research articles, abstracts should give a pertinent overview of the work. We strongly encourage authors to use the following style of structured abstracts, but without headings: (1) Background: Place the question addressed in a broad context and highlight the purpose of the study; (2) Methods: Describe briefly the main methods or treatments applied; (3) Results: Summarize the article's main findings; and (4) Conclusion: Indicate the main conclusions or interpretations. The abstract should be an objective representation of the article, it must not contain results which are not presented and substantiated in the main text and should not exaggerate the main conclusions.}
+\abstract{With the development of society and the improvement of people's material level, airplanes are becoming more and more a means of transportation for people to travel. If an airline can predict the passenger flow in advance, it can be used as an important decision-making basis for its flight route planning, crew scheduling planning and ticket price formulation in the process of management and operation. However, due to the high complexity of aviation network, the existing traffic prediction methods generally have the problem of low prediction accuracy. In order to overcome this problem, this paper makes full use of graph convolutional neural network and long - short memory network to construct a prediction system with short - term prediction ability. Specifically, this paper uses the graph convolutional neural network as a feature extraction tool to extract the key features of air traffic data, and solves the problem of long term and short term dependence between data through the long term memory network, and builds a high-precision air traffic prediction system based on it. Finally, we design a comparison experiment to compare the algorithm with the traditional algorithm. The comparison results show that the algorithm has obvious advantages in air flow prediction.}
 
 % Keywords
-\keyword{keyword 1; keyword 2; keyword 3}  % List three to ten pertinent keywords specific to the article, yet reasonably common within the subject discipline.
+\keyword{Graph Convolutional Network; Long Short Term Memory Network; Flow; Airlines; Predict}  % List three to ten pertinent keywords specific to the article, yet reasonably common within the subject discipline.
 
 % The fields PACS, MSC, and JEL may be left empty or commented out if not applicable
 %\PACS{J0101}
@@ -132,30 +132,41 @@ $^{2}$ \quad Affiliation 2; e-mail@e-mail.com}
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-The introduction should briefly place the study in a broad context and highlight why it is important. It should define the purpose of the work and its significance. The current state of the research field should be reviewed carefully and key publications cited. Please highlight controversial and diverging hypotheses when necessary. Finally, briefly mention the main aim of the work and highlight the principal conclusions. As far as possible, please keep the introduction comprehensible to scientists outside your particular field of research. Citing a journal paper \cite{ref-journal}. And now citing a book reference \cite{ref-book}. Please use the command \citep{ref-journal} for the following MDPI journals, which use author-date citation: Administrative Sciences, Arts, Econometrics, Economies, Genealogy, Humanities, IJFS, JRFM, Languages, Laws, Religions, Risks, Social Sciences.
-\section{Main result}
-In airlines, the spatial distribution of aircraft stations is a non-Euclidean structure, that is, the number of stations around each station is uncertain, and even if two stations are adjacent, they may not actually communicate with each other, resulting in no spatial relationship between their traffic. Therefore, traditional convolutional neural network (CNN) cannot accurately obtain their spatial information. At this point, multiple sites can be abstracted into A graph (see Figure \ref{fig:stations}). Features are extracted from the original input data to obtain the result of feature mapping of multiple channels. The intercommunication relationship between each site is represented by adjacency matrix A.
+In recent years, as an important industry in national economic and social development and an advanced mode of transportation, the demand for civil aviation passenger transport has been growing rapidly along with the rapid development of national economy and the substantial increase of people's income. Air traffic has always been the focus of attention because it is related to the development of civil aviation industry, the profitability of airlines and the vital interests of passengers\cite{1}.
+\par Air traffic forecast plays an important role in aviation revenue management theory. The forecast results can be used to dynamically adjust the ticket price, which can make the airline company achieve the maximum revenue. However, the pricing mechanism of each airline is complex, and the real-time ticket price is constantly changing under the influence of many factors, which has the characteristics of trend, randomness and volatility. Therefore, how to forecast the air passenger flow accurately and reasonably has become an important content of China's air transport management.
+\par Related researches have been conducted on air passenger flow forecast at home and abroad.  An integrated learning binary classification algorithm HAMLET is proposed based on Q-learning \cite{2}. HAMLET uses rule learning, reinforcement learning and time series technology, and combines their results through superposition generalization to produce the final prediction result. The accuracy can reach $74.5\%$. This method still has a lot of room for improvement in traffic forecasting. Groves, William and Gini, Maria \cite{3} use a regression model for different prediction targets. The author introduces a complex feature extraction and selection method to predict, and predict the traffic two months in advance. A pre-processing technique, the Marked Point Process (MPP), was proposed to reduce the size of the feature set by retaining only the significant changes in the flow sequence and the turnover rate \cite{4}.
+\par  However, all the above studies focus on the optimal purchase timing problem, and seldom discuss the performance of regression prediction. The forecast of air flow can be naturally transformed into a time series forecasting problem. According to the time before departure, Zhao-Jun, Gu and Shuang et. al \cite{5} use classical time series model to simulate the flow. Although many classic time series models are based on the assumption that there is linear relationship between the past and the future value, but the time series model to forecast the traffic demand data must have the correlation, due to the passenger flow influenced by various factors changing, trend and the characteristics of randomness and volatility, will also affect air flow prediction.
+\par Applying machine learning technology to solve nonlinear time series problems \cite{6} is a better trend. Various algorithms for machine learning have been studied and deployed \cite{carmona2020sarima,nieto2018arima+,madhavan2020short,pan2018novel}. Jiang et al.\cite{7} applied grey SVM combined with empirical mode decomposition (EMD) to high-speed railway passenger flow prediction. Xie et al. \cite{8} used EMD to model passenger flow prediction of airport terminals by least squares support vector machine. Support vector machine is regarded as a classification tool, and support vector regression aims to identify and optimize the error range of regression. If the observed value falls within the boundary, the cost of error is calculated as zero. However, SVM algorithm is suitable for small sample learning, and if the data sample size is too large, the prediction results will be adversely affected. The application of neural network in long - term demand forecasting is very popular. Tsai et al. \cite{9} use them for short-term demand forecasting. They compared two advanced formulas, MTUNN and Penn, with the general multilayer perceptron model. Wei and Chen \cite{10} used hybrid neural network model to predict passenger flow in rapid transit systems. Using neural network model to make prediction, we need to turn all the characteristics of the problem into numbers, and all the reasoning into numerical calculation, the result is bound to lose information. And model training needs a large number of data samples to support. 
+\par However, the above method based on machine learning is based on the historical data of each aviation station to forecast, this method does not consider the impact of the ticket price and passenger flow of other stations on the passenger flow of the current station, so the prediction performance is poor. Graphic Convolutional Neural Network (GCN), as a kind of neural network that can extract unstructured data, has gained a lot of attention in solving the relationship between adjacent points \cite{geng2019spatiotemporal, he2020lightgcn, wei2019mmgcn}.
+\par  In view of the low accuracy of air passenger flow prediction at present and the trend, randomness and volatility of air traffic affected by many factors, we built a graph convolution-long short-term memory model based on graph convolutional neural network and long short-term memory neural network. In this model, the feature mapping of the data set is carried out by using the graph convolutional neural network. Then the long and short memory model is used to process the matrix data set and realize the prediction of ticket price. This method takes into account the different influences of various factors on the ticket price, and also combines the characteristics of the trend and volatility of the ticket price. The experimental results show that the graph convolution-long and short memory model can be used to predict the air ticket price well.
+\par The remaining part of this paper is organized as follows. The main contribution of  this paper is descripted in Section \ref{sec:2}. In Section \ref{sec:3}, two comparative experiments are used to prove the effectiveness of the algorithm. And conclusions are drawn in Section \ref{sec:4}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Main result}\label{sec:2}
+In airlines, the spatial distribution of aircraft stations is a non-euclidean structure, that is, the number of stations around each station is uncertain, and even if two stations are adjacent, they may not actually communicate with each other, resulting in no spatial relationship between their traffic. Therefore, traditional convolutional neural network (CNN) cannot accurately obtain their spatial information. At this point, multiple sites can be abstracted into A graph (see Figure \ref{fig:stations}). Features are extracted from the original input data to obtain the result of feature mapping of multiple channels. The intercommunication relationship between each site is represented by adjacency matrix A.
 \begin{figure}[htp]
     \centering
     \includegraphics[width=8 cm]{imgs/GCN.png}
     \caption{The distribution of the stations.}
     \label{fig:stations}
 \end{figure}
-\subsection{The definition of the problem } 
+\subsection{The definition of the problem} 
 The problem of airline passenger flow prediction can be described as follows: the historical flow data of each station $X_{t-s}, X_{t-s+1},  X_{t-2}, \cdots,  X_{t-1}$ (s is the time step) can be used to predict the flow $X_{t}$ of the next period. 
 The formula is described as
 \begin{equation}
     X_{t} = F([ X_{t-s}, X_{t-s+1}, \cdots, X_{t-2}, X_{t-1}])
 \end{equation}
 where, $X$ is the site characteristics at each time step, and $F$ is a nonlinear function.
-\par In the actual traffic system, the road network is regarded as A directed graph $G = (q, V, A)$. Each sensor in the road network is regarded as a node vi V and its value Q R is a scalar. V RN and N is the number of sensors. 
-The flow relationship between nodes consists of adjacency matrix A that is, the element Aij in A represents the connection relationship between node VI and vJ.
+\par In the actual traffic system, the network is regarded as a directed graph $G = (Q, V, A)$. Each sensor in the  network is regarded as a node $v_{i}$ and its value $Q \in R$ is a scalar. $V \in R^{N}$ and $N$ is the number of sensors. 
+The flow relationship between nodes consists of adjacency matrix $A$ that is, the element $A_{ij}$ in $A$ represents the connection relationship between node $V_{i}$ and $V_{j}$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The description of the GCN} 
-When dealing with the structure of the graph, it is necessary to obtain its Laplace matrix L first, which is generally defined in the following ways:
+When dealing with the structure of the graph, it is necessary to obtain its Laplace matrix $L$, which is generally defined in the following ways:
 \begin{equation}
     L=D^{-\frac{1}{2}}(D-A) D^{-\frac{1}{2}}=I_{N}-D^{-\frac{1}{2}} A D^{-\frac{1}{2}}
 \end{equation}
-Where, $I_{N}$is the identity matrix of $N×N$; Degree matrix $D$ is defined as $D_{i i}=\sum_{i} A_{i j}^{i}$. Decompose the eigenvalue of $L$ to get $L = \mathrm{L}=\mathrm{U} \Lambda \mathrm{U}^{\mathrm{T}}$. $\Lambda$ is made up of L eigenvalues of diagonal matrix. $\mathrm{U}=\left\{\mathrm{u}_{1}, \mathrm{u}_{2}, \ldots, \mathrm{u}_{\mathrm{N}}\right\}$ is composed of the eigenvector L, and it is an orthonormal basis for $\mathrm{R}^{\mathrm{N}}$.
+where, $I_{N}$is the identity matrix of $N×N$; Degree matrix $D$ is defined as $D_{i i}=\sum_{i} A_{i j}^{i}$. Decompose the eigenvalue of $L$ to get $L = \mathrm{L}=\mathrm{U} \Lambda \mathrm{U}^{\mathrm{T}}$. $\Lambda$ is made up of L eigenvalues of diagonal matrix. $\mathrm{U}=\left\{\mathrm{u}_{1}, \mathrm{u}_{2}, \ldots, \mathrm{u}_{\mathrm{N}}\right\}$ is composed of the eigenvector L, and it is an orthonormal basis for $\mathrm{R}^{\mathrm{N}}$.
 \par The spectral convolution theory in the graph structure has been supplemented and perfected in the paper. The convolution operation of convolution kernel $G$ and input signal $X$ in the time domain can be converted into the inner product form in the frequency domain.
 \begin{equation}
     \left.g^{*} x=U\left(U^{\mathrm{T}} g\right) \odot\left(U^{\mathrm{T}} \boldsymbol{x}\right)\right)=U_{g_{\theta}}(A) U^{\mathrm{T}} x
@@ -168,7 +179,7 @@ where $\widetilde{D}^{-1 / 2} \widetilde{A} \widetilde{D}^{-1 / 2}=I_{N}+D^{-1 /
 \begin{equation}
     H^{(l)}=\sigma\left(\widetilde{D}^{-\frac{1}{2}} \widetilde{A} \widetilde{D}^{-\frac{1}{2}} H^{(l-1)} W^{(l)}\right.
 \end{equation}
-where $\delta$ is the activation function, $\widetilde{W}^{(l)}=\theta^{(l-1)} W^{(l)} \quad \boldsymbol{\theta}^{(l-1)} \in \boldsymbol{R}^{c^{(1-l)} \times F^{(l-1)}}, \boldsymbol{W}^{(l)} \in \boldsymbol{R}^{F^{(l-1)} \times c^{(l)}}$,  $C^{(L-1)}$ is the output dimension of the $(L-1)$ layer, and $F^{(L-1)}$ is the characteristic vector size of each dimension. Therefore
+where $\delta$ is the activation function, $\widetilde{W}^{(l)}=\theta^{(l-1)} W^{(l)}, \quad \boldsymbol{\theta}^{(l-1)} \in \boldsymbol{R}^{c^{(1-l)} \times F^{(l-1)}}, \boldsymbol{W}^{(l)} \in \boldsymbol{R}^{F^{(l-1)} \times c^{(l)}}$,  $C^{(L-1)}$ is the output dimension of the $(L-1)$ layer, and $F^{(L-1)}$ is the characteristic vector size of each dimension. Therefore
 \begin{equation}
     H^{(l)}=\sigma\left(\widetilde{D}^{-\frac{1}{2}} \widetilde{A} \widetilde{D}^{-\frac{1}{2}} H^{(l-1)} \widetilde{W}^{(l)}\right)
 \end{equation}
@@ -177,29 +188,32 @@ where $\delta$ is the activation function, $\widetilde{W}^{(l)}=\theta^{(l-1)} W
     \left.H^{(l)}=\sigma / \widetilde{A} H^{(l-1)} \widetilde{W}^{(l)}\right)
     \label{equ:hl}
 \end{equation}
-The element value of matrix $A$ is learned from the sample data, that is, the matrix is composed of trainable parameters. The data-driven approach is more realistic than the heuristic approach. Therefore, the L layer of the convolutional neural network is constructed in accordance with Formula \ref{equ:hl}. It should be noted that the initial $A$ maki is the same for each layer of the convolutional network, and the parameters are updated only when the error is propagated backwards.
-\subsection{the import of LSTM}
-It is found that Recurrent Neural networks (RNN) are widely used in sequential data such as natural language and image processing, which have a significant effect. Since then, various types of circulating neural networks have been proposed. Aiming at the problem of air passenger flow prediction, this paper introduces the long and short term memory network, which can extract the characteristic information of the input sequence and find its internal relation, so as to improve the prediction accuracy of the model.
-\par The LSTM network structure used in this paper is shown as follows
+\par The element value of matrix $A$ is learned from the sample data, that is, the matrix is composed of trainable parameters. The data-driven approach is more realistic than the heuristic approach. Therefore, the L layer of the convolutional neural network is constructed in accordance with Formula \ref{equ:hl}. It should be noted that the initial matrix $A$ is the same for each layer of the convolutional network, and the parameters are updated only when the error is propagated backwards.
+\par GCN introduces the spatial features of the graph by convolving the Laplace matrix with the input. In this paper, the model takes flight segments as nodes and the association between flight segments as edges to build a graph. According to the graph, the adjacency matrix is obtained and the demand of future flight segments is predicted by combining the price and demand of historical flight segments.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The problem of time series}
+It is found that Recurrent Neural networks (RNN) are widely used in sequential data such as natural language and image processing, which have a significant effect. Since then, various types of circulating neural networks have been proposed. Aiming at the problem of air passenger flow prediction, this paper introduces the Long Short-Term Memory network (LSTM), which can extract the characteristic information of the input sequence and find its internal relation, so as to improve the prediction accuracy of the model. In order to make use of the spatial and temporal characteristics of the data at the same time, the GCN model is combined with the LSTM model, and the GCN module is added to the output of the upper level.
+\par The LSTM network structure used in this paper is shown as Figure \ref{fig:lstm}.
 \begin{figure}
     \centering
     \includegraphics[width=8 cm]{./imgs/LSTMpng.png}
     \caption{The structure of LSTM.}
+    \label{fig:lstm}
 \end{figure}
-The network model mainly accepts three inputs: $X$, $H$ and $C$ represent the current state, hidden layer state and cell state, respectively.
-\par LSTM mainly realizes the management of long and short term memory through three gating units. The first step in the LSTM is to determine what information needs to be thrown out of the cell state. This decision is made by a sigmoID layer called the "Forget Gate." Input x and h, output a number between 0 and 1. 1 means "keep the value completely", while 0 means "throw the value away completely". The formula of forgetting gate is as follows:
+\par The network model mainly accepts three inputs: $X$, $H$ and $C$ represent the current state, hidden layer state and cell state, respectively.
+\par LSTM mainly realizes the management of long and short term memory through three gating units. The first step in the LSTM is to determine what information needs to be thrown out of the cell state. This decision is made by a sigmoid layer called the "Forget Gate." Input x and h, output a number between 0 and 1. The value of 1 means "keep the value completely", while 0 means "throw the value away completely". The formula of forgetting gate is as follows:
 \begin{equation}
     f_{t}=\sigma\left(W_{f} \cdot\left[h_{t-1}, x_{t}\right]+b_{f}\right)
 \end{equation}
 where $W_{f}$ and $b_{f}$ are the parameters to be learned, and $\sigma$ is the sigmod activation function.
-\par The second step is to determine what information we need to store in the Cell State. There are two parts to this question. First, a sigmod layer calls the "Input Gate" to determine which data needs to be updated. Then, a tanh layer creates a vector C1 for the new candidate values, which can be added to the state.
+\par The second step is to determine what information we need to store in the Cell State. There are two parts to this question. First, a sigmod layer calls the "Input Gate" to determine which data needs to be updated. Then, a tanh layer creates a vector $C_{1}$.
 \begin{equation}
     \begin{aligned}
     i_{t} &=\sigma\left(W_{i} \cdot\left[h_{t-1}, x_{t}\right]+b_{i}\right) \\
     \tilde{C}_{t} &=\tanh \left(W_{C} \cdot\left[h_{t-1}, x_{t}\right]+b_{C}\right)
     \end{aligned}
 \end{equation}
-\par After deciding what needs to be forgotten and what needs to be added, the old cell state Ct-1 can be updated to the new cell state Ct.
+\par After deciding what needs to be forgotten and what needs to be added, the old cell state $C_{t-1}$ can be updated to the new cell state $C_{t}$.
 \begin{equation}
     C_{t}=f_{t} * C_{t-1}+i_{t} * \tilde{C}_{t}
 \end{equation}
@@ -211,17 +225,29 @@ where $W_{f}$ and $b_{f}$ are the parameters to be learned, and $\sigma$ is the 
     \end{array}
 \end{equation}
 \subsection{The description of algorithm}
-The network structure based on GCN-LSTM model proposed in this paper is shown in the figure. The prediction model is composed of multiple layers of GCN and an LSTM model. Among them, GCN model is mainly used to extract the features of graph networks, while LSTM network model is mainly used to solve the long-term and short-term dependence between data. 
-\par In this paper, features of different graph networks are extracted through multiple GCN, and the extracted features are transferred into LSTM, and the timing characteristics of sequence data are analyzed through LSTM, and a more accurate prediction value is given through multi-layer full connection layer.
-\begin{figure}[htp]
+The network structure based on GCN-LSTM model proposed in this paper is shown in the Fig. \ref{fig:GCN-LSTM}. The model mainly adopts encoder-decoder structure. In the encoder, multiple parallel GCN modules are used to extract the key features of the graph network with different time series. Then, the extracted time series features are transmitted to LSTM, and feature analysis and further feature extraction are carried out on the sequence data through LSTM to solve the long-term and short-term dependencies between the data. Finally, the encoder generates an encoded pair vector and sends it to the decoder. In the decoder, the multi-layer feedforward neural network is used to further process the features of the coding vector. Finally, the processed data is transmitted to a GCN network to produce predicted values.
+\par  In order to improve the prediction performance of the GCN-LSTM algorithm, in this paper, we use the final output through the network and the value of the real label to calculate $L_{1}$ loss, also known as the mean absolute error (MAE), and take the mean square error (MSE) as the evaluation index of the model. The specific calculation formula is as:
+\begin{equation}
+    \operatorname{loss}=M A E=\frac{1}{m} \sum_{i=1}^{m}\left|\left(y_{i}-\hat{y}_{i}\right)\right|
+\end{equation}
+\begin{equation}
+    M S E=\frac{1}{m} \sum_{i=1}^{m}\left(\left(y_{i}-\hat{y}_{i}\right)\right)^{2}
+\end{equation}
+\par In this paper, the Adam-based batch gradient descent optimization algorithm  is used to learn and update parameters through the loss function to minimize the loss function until the loss function converges. The trained model is used to predict the test set and calculate the MSE. The smaller the MSE value is, the closer the predicted value of the model is to the real value and the better the generalization ability of the model is.
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=8 cm]{./imgs/GCN-LSTM.png}
+    \includegraphics[width=12 cm]{./imgs/GCN-LSTM.png}
     \caption{Overall structure of GCN-LSTM model (original features of air passenger flow data are extracted by using first-order approximate GCN, and output features are analyzed by LSTM for long-term and short-term sequence characteristics, and then predicted values are obtained).}
+    \label{fig:GCN-LSTM}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Patents}
-This section is not mandatory, but may be added if there are patents resulting from the work reported in this manuscript.
+\section{Experiments}\label{sec:3}
+The experiments is managed by Guo.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}\label{sec:4}
+In view of the problems existing in air flow prediction, an air flow prediction model based on graph convolutional neural network and long short-term memory network is proposed based on in-depth analysis of the influencing factors of air flow prediction. Firstly, based on the characteristics of air traffic data, a feature extraction network based on graph convolutional neural network is designed. Then combined with the long - short memory network to solve the problem of long - short - term data dependence; Finally, the prediction results are outputted based on the feedforward neural network. In the experimental part, we verify the performance of the GCNLSTM model on aviation data sets. The experimental results show that the prediction results of this model are obviously more accurate than the existing algorithms, and it has higher prediction performance.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \vspace{6pt} 
 
@@ -244,30 +270,6 @@ This section is not mandatory, but may be added if there are patents resulting f
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \conflictsofinterest{Declare conflicts of interest or state ``The authors declare no conflict of interest.'' Authors must identify and declare any personal circumstances or interest that may be perceived as inappropriately influencing the representation or interpretation of reported research results. Any role of the funders in the design of the study; in the collection, analyses or interpretation of data; in the writing of the manuscript, or in the decision to publish the results must be declared in this section. If there is no role, please state ``The funders had no role in the design of the study; in the collection, analyses, or interpretation of data; in the writing of the manuscript, or in the decision to publish the results''.} 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% optional
-\abbreviations{The following abbreviations are used in this manuscript:\\
-
-\noindent 
-\begin{tabular}{@{}ll}
-MDPI & Multidisciplinary Digital Publishing Institute\\
-DOAJ & Directory of open access journals\\
-TLA & Three letter acronym\\
-LD & linear dichroism
-\end{tabular}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% optional
-\appendixtitles{no} % Leave argument "no" if all appendix headings stay EMPTY (then no dot is printed after "Appendix A"). If the appendix sections contain a heading then change the argument to "yes".
-\appendix
-\section{}
-\unskip
-\subsection{}
-The appendix is an optional section that can contain details and data supplemental to the main text. For example, explanations of experimental details that would disrupt the flow of the main text, but nonetheless remain crucial to understanding and reproducing the research shown; figures of replicates for experiments of which representative data is shown in the main text can be added here if brief, or as Supplementary data. Mathematical proofs of results not central to the paper can be added as an appendix.
-
-\section{}
-All appendix sections must be cited in the main text. In the appendixes, Figures, Tables, etc. should be labeled starting with `A', e.g., Figure A1, Figure A2, etc. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \reftitle{References}
