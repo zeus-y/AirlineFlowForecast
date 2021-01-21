@@ -3,6 +3,33 @@
 
 %=================================================================
 \documentclass[journal,article,submit,moreauthors,pdftex]{Definitions/mdpi} 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+%\usepackage{amsfonts}
+\usepackage{supertabular}
+\usepackage{caption}
+% \usepackage{epsfig}
+\UseRawInputEncoding
+%% The amssymb package provides various useful mathematical symbols
+%% The amsthm package provides extended theorem environments
+\usepackage{amsthm}  %theorem,definition package
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers.
+\usepackage{lineno}
+\usepackage{bbding}
+\usepackage{float}  %display graph position
+\graphicspath{{figures/}}
+\renewcommand{\figurename}{Fig.}
+\usepackage{subfigure}
+\usepackage{booktabs}
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
 
 % If you would like to post an early version of this manuscript as a preprint, you may use preprint as the journal and change 'submit' to 'accept'. The document class line would be, e.g., \documentclass[preprints,article,accept,moreauthors,pdftex]{mdpi}. This is especially recommended for submission to arXiv, where line numbers should be removed before posting. For preprints.org, the editorial staff will make this change immediately prior to posting.
 
@@ -67,7 +94,7 @@
 
 %=================================================================
 % Full title of the paper (Capitalized)
-\Title{Title}
+\Title{A new way of airline traffic prediction based on LSTM graph convolutional network}
 
 % Author Orchid ID: enter ID or remove command
 \newcommand{\orcidauthorA}{0000-0000-000-000X} % Add \orcidA{} behind the author's name
@@ -242,7 +269,61 @@ The network structure based on GCN-LSTM model proposed in this paper is shown in
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiments}\label{sec:3}
-The experiments is managed by Guo.
+This paper selects 6,9111,332 ticket sales data examples of 28,809 flights of 17 domestic airlines between September 1, 2020 and October 31, 2020 to verify the feasibility and effectiveness of the GCN-LSTM combined prediction model. The selected data set is relatively complete without missing values. After obtaining a complete data set, an adjacency matrix is constructed according to the data set. Each flight segment is a node. Between nodes, if the origin is the same, it is considered to have a diverting effect on traffic, and the weight is set as the number of (0,1). If the destination is the same and the traffic is considered to be promoted, the weight is set as the number greater than 1 and the rest as 0.
+\par Five sections of AAT\_URC, CAN\_PEK, CAN\_CSX, CAN\_CTU and CAN\_CKG are taken as examples to construct an adjacency matrix, in which AAT, URC, CAN, PEK, CSX, CTU and CKG are city names.
+\begin{table}[htbp]
+    \centering
+	\caption{Adjacent Matrix.}
+	\begin{tabular}{cccccc}
+		\toprule
+		& AAT\_URC	& CAN\_PEK  &  CAN\_CSX  &  CAN\_CTU  &  CAN\_CKG\\
+		\midrule
+		AAT\_URC		& 0	& 0.0  &  0.0 & 0.0 & 0.0 \\
+		CAN\_PEK		& 0	& 0.0  &  0.5 & 0.5 & 0.5\\
+        CAN\_CSX     & 0	& 0.5  &  0.0 & 0.5 & 0.5\\
+        CAN\_CTU     & 0	& 0.5  &  0.5 & 0.0 & 0.5\\
+        CAN\_CKG     & 0	& 0.5  &  0.5 & 0.5 & 0.0\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\par Time series features are constructed. The above five flight sections are also taken as examples. According to the take-off time, the price series 14 days before the take-off time is taken as the X feature. The flow of 1 day before the take-off was taken as Y, and such input and output were a sample. The take-off time was calculated forward to increase the number of samples. In this way, there are 14 days' time data, 1 piece of demand data, arranged in a time series according to time.
+\par In this paper, the data set of two months is divided into training set and test set according to the ratio of 8:2, normalized, and trained by GCN-LSTM. The timing step size of the model is 15, and the window is constantly moved to predict. Under the premise of the same input of historical price time series, it is compared with the experimental results of traditional AR model, Moving Average, Exponential Smoothing, LSTM and SVR.
+
+\par Table 2 lists five precise results of route prediction, which show that the GCN-LSTM model can improve the accuracy of prediction.
+\begin{table}[htbp]
+    \centering
+	\caption{Prediction results MSE.}
+	\begin{tabular}{ccccccc}
+		\toprule
+		& GCN-LSTM	& LSTM  &  SVR  &  AR  &  MA  & ES\\
+		\midrule
+		Average of five routes	& 6.86\% & 10.84\%  &  12.72\% & 14.46\% & 13.73\%  &  16.93\%   \\
+        AAT\_URC     & 5.44\% & 8.71\% & 10.73\% & 11.37\% & 10.74\% & 14.39\% \\
+		CAN\_PEK		& 6.91\% & 9.74\% & 12.02\% & 12.75\% & 11.71\% & 16.47\% \\
+        CAN\_CSX     & 8.87\% & 12.03\% & 13.07\% & 17.13\% & 14.57\% & 18.29\% \\
+        CAN\_CTU     & 6.24\% & 11.73\% & 14.35\% & 15.01\% & 13.79\% & 17.48\\
+        CAN\_CKG     & 6.84\% & 11.99\% & 13.43\% & 16.04\% & 17.84\% & 18.02\%\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+% \par Fig.4, taking a single airline of AAT_URC as an example, the GCN-LSTM method is used. The horizontal axis represents the departure date from September 15, 2020 to October 31, 2020, the dot represents the actual passenger flow on that day, and the square represents the passenger flow predicted according to the price time series of the first 14 days.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=12 cm]{./imgs/predicted.png}
+    \caption{OGCN-LSTM model prediction results of AAT URC route.}
+    \label{fig:predicted}
+\end{figure}
+
+\par Fig.5 shows the average MSE values predicted by AR model, moving average, exponential smoothing, LSTM and SSR for five airlines. The red line is the prediction results of GCN-LSTM model.It can be seen from the figure that the GCN-LSTM model is used for prediction, and the error fluctuation is small, and the MSE is basically in the range of 5\%-9\%.The prediction results of this model are obviously better than those of other models.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=12 cm]{./imgs/duibi.png}
+    \caption{Comparison of MSE results of five airlines.}
+    \label{fig:duibi}
+\end{figure}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -259,17 +340,17 @@ In view of the problems existing in air flow prediction, an air flow prediction 
 % If you wish to submit a video article, please do so with any other supplementary material.
 % \supplementary{The following are available at \linksupplementary{s1}, Figure S1: title, Table S1: title, Video S1: title. A supporting video article is available at doi: link.}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\authorcontributions{For research articles with several authors, a short paragraph specifying their individual contributions must be provided. The following statements should be used ``Conceptualization, X.X. and Y.Y.; methodology, X.X.; software, X.X.; validation, X.X., Y.Y. and Z.Z.; formal analysis, X.X.; investigation, X.X.; resources, X.X.; data curation, X.X.; writing--original draft preparation, X.X.; writing--review and editing, X.X.; visualization, X.X.; supervision, X.X.; project administration, X.X.; funding acquisition, Y.Y. All authors have read and agreed to the published version of the manuscript.'', please turn to the  \href{http://img.mdpi.org/data/contributor-role-instruction.pdf}{CRediT taxonomy} for the term explanation. Authorship must be limited to those who have contributed substantially to the work reported.}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \authorcontributions{For research articles with several authors, a short paragraph specifying their individual contributions must be provided. The following statements should be used ``Conceptualization, X.X. and Y.Y.; methodology, X.X.; software, X.X.; validation, X.X., Y.Y. and Z.Z.; formal analysis, X.X.; investigation, X.X.; resources, X.X.; data curation, X.X.; writing--original draft preparation, X.X.; writing--review and editing, X.X.; visualization, X.X.; supervision, X.X.; project administration, X.X.; funding acquisition, Y.Y. All authors have read and agreed to the published version of the manuscript.'', please turn to the  \href{http://img.mdpi.org/data/contributor-role-instruction.pdf}{CRediT taxonomy} for the term explanation. Authorship must be limited to those who have contributed substantially to the work reported.}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\funding{Please add: ``This research received no external funding'' or ``This research was funded by NAME OF FUNDER grant number XXX.'' and  and ``The APC was funded by XXX''. Check carefully that the details given are accurate and use the standard spelling of funding agency names at \url{https://search.crossref.org/funding}, any errors may affect your future funding.}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \funding{Please add: ``This research received no external funding'' or ``This research was funded by NAME OF FUNDER grant number XXX.'' and  and ``The APC was funded by XXX''. Check carefully that the details given are accurate and use the standard spelling of funding agency names at \url{https://search.crossref.org/funding}, any errors may affect your future funding.}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\acknowledgments{In this section you can acknowledge any support given which is not covered by the author contribution or funding sections. This may include administrative and technical support, or donations in kind (e.g., materials used for experiments).}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \acknowledgments{In this section you can acknowledge any support given which is not covered by the author contribution or funding sections. This may include administrative and technical support, or donations in kind (e.g., materials used for experiments).}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\conflictsofinterest{Declare conflicts of interest or state ``The authors declare no conflict of interest.'' Authors must identify and declare any personal circumstances or interest that may be perceived as inappropriately influencing the representation or interpretation of reported research results. Any role of the funders in the design of the study; in the collection, analyses or interpretation of data; in the writing of the manuscript, or in the decision to publish the results must be declared in this section. If there is no role, please state ``The funders had no role in the design of the study; in the collection, analyses, or interpretation of data; in the writing of the manuscript, or in the decision to publish the results''.} 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \conflictsofinterest{Declare conflicts of interest or state ``The authors declare no conflict of interest.'' Authors must identify and declare any personal circumstances or interest that may be perceived as inappropriately influencing the representation or interpretation of reported research results. Any role of the funders in the design of the study; in the collection, analyses or interpretation of data; in the writing of the manuscript, or in the decision to publish the results must be declared in this section. If there is no role, please state ``The funders had no role in the design of the study; in the collection, analyses, or interpretation of data; in the writing of the manuscript, or in the decision to publish the results''.} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \reftitle{References}
