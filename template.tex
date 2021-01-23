@@ -94,23 +94,24 @@
 
 %=================================================================
 % Full title of the paper (Capitalized)
-\Title{A new way of airline traffic prediction based on LSTM graph convolutional network}
+\Title{A new way of airline traffic prediction based on GCN-LSTM}
 
 % Author Orchid ID: enter ID or remove command
 \newcommand{\orcidauthorA}{0000-0000-000-000X} % Add \orcidA{} behind the author's name
 %\newcommand{\orcidauthorB}{0000-0000-000-000X} % Add \orcidB{} behind the author's name
 
 % Authors, for the paper (add full first names)
-\Author{Firstname Lastname $^{1,\dagger,\ddagger}$\orcidA{}, Firstname Lastname $^{1,\ddagger}$ and Firstname Lastname $^{2,}$*}
-
+% \Author{Firstname Lastname $^{1,\dagger,\ddagger}$\orcidA{}, Firstname Lastname $^{1,\ddagger}$ and Firstname Lastname $^{2,}$*}
+\Author{Jiangni Yu}
 
 % Authors, for metadata in PDF
-\AuthorNames{Firstname Lastname, Firstname Lastname and Firstname Lastname}
+\AuthorNames{Jiangni Yu}
 
 % Affiliations / Addresses (Add [1] after \address if there is only one affiliation.)
 \address{%
-$^{1}$ \quad Affiliation 1; e-mail@e-mail.com\\
-$^{2}$ \quad Affiliation 2; e-mail@e-mail.com}
+$^{1}$ \quad School of Economics and Management, Beijing University of Posts and Telecommunications, Beijing 100876, China; yu-jiangni@163.com\\
+% $^{2}$ \quad Affiliation 2; e-mail@e-mail.com
+}
 
 % Contact information of the corresponding author
 \corres{Correspondence: e-mail@e-mail.com; Tel.: (optional; include country code; if there are multiple corresponding authors, add author initials) +xx-xxxx-xxx-xxxx (F.L.)}
@@ -159,13 +160,17 @@ $^{2}$ \quad Affiliation 2; e-mail@e-mail.com}
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-In recent years, as an important industry in national economic and social development and an advanced mode of transportation, the demand for civil aviation passenger transport has been growing rapidly along with the rapid development of national economy and the substantial increase of people's income. Air traffic has always been the focus of attention because it is related to the development of civil aviation industry, the profitability of airlines and the vital interests of passengers\cite{1}.
-\par Air traffic forecast plays an important role in aviation revenue management theory. The forecast results can be used to dynamically adjust the ticket price, which can make the airline company achieve the maximum revenue. However, the pricing mechanism of each airline is complex, and the real-time ticket price is constantly changing under the influence of many factors, which has the characteristics of trend, randomness and volatility. Therefore, how to forecast the air passenger flow accurately and reasonably has become an important content of China's air transport management.
-\par Related researches have been conducted on air passenger flow forecast at home and abroad.  An integrated learning binary classification algorithm HAMLET is proposed based on Q-learning \cite{2}. HAMLET uses rule learning, reinforcement learning and time series technology, and combines their results through superposition generalization to produce the final prediction result. The accuracy can reach $74.5\%$. This method still has a lot of room for improvement in traffic forecasting. Groves, William and Gini, Maria \cite{3} use a regression model for different prediction targets. The author introduces a complex feature extraction and selection method to predict, and predict the traffic two months in advance. A pre-processing technique, the Marked Point Process (MPP), was proposed to reduce the size of the feature set by retaining only the significant changes in the flow sequence and the turnover rate \cite{4}.
-\par  However, all the above studies focus on the optimal purchase timing problem, and seldom discuss the performance of regression prediction. The forecast of air flow can be naturally transformed into a time series forecasting problem. According to the time before departure, Zhao-Jun, Gu and Shuang et. al \cite{5} use classical time series model to simulate the flow. Although many classic time series models are based on the assumption that there is linear relationship between the past and the future value, but the time series model to forecast the traffic demand data must have the correlation, due to the passenger flow influenced by various factors changing, trend and the characteristics of randomness and volatility, will also affect air flow prediction.
-\par Applying machine learning technology to solve nonlinear time series problems \cite{6} is a better trend. Various algorithms for machine learning have been studied and deployed \cite{carmona2020sarima,nieto2018arima+,madhavan2020short,pan2018novel}. Jiang et al.\cite{7} applied grey SVM combined with empirical mode decomposition (EMD) to high-speed railway passenger flow prediction. Xie et al. \cite{8} used EMD to model passenger flow prediction of airport terminals by least squares support vector machine. Support vector machine is regarded as a classification tool, and support vector regression aims to identify and optimize the error range of regression. If the observed value falls within the boundary, the cost of error is calculated as zero. However, SVM algorithm is suitable for small sample learning, and if the data sample size is too large, the prediction results will be adversely affected. The application of neural network in long - term demand forecasting is very popular. Tsai et al. \cite{9} use them for short-term demand forecasting. They compared two advanced formulas, MTUNN and Penn, with the general multilayer perceptron model. Wei and Chen \cite{10} used hybrid neural network model to predict passenger flow in rapid transit systems. Using neural network model to make prediction, we need to turn all the characteristics of the problem into numbers, and all the reasoning into numerical calculation, the result is bound to lose information. And model training needs a large number of data samples to support. 
-\par However, the above method based on machine learning is based on the historical data of each aviation station to forecast, this method does not consider the impact of the ticket price and passenger flow of other stations on the passenger flow of the current station, so the prediction performance is poor. Graphic Convolutional Neural Network (GCN), as a kind of neural network that can extract unstructured data, has gained a lot of attention in solving the relationship between adjacent points \cite{geng2019spatiotemporal, he2020lightgcn, wei2019mmgcn}.
-\par  In view of the low accuracy of air passenger flow prediction at present and the trend, randomness and volatility of air traffic affected by many factors, we built a graph convolution-long short-term memory model based on graph convolutional neural network and long short-term memory neural network. In this model, the feature mapping of the data set is carried out by using the graph convolutional neural network. Then the long and short memory model is used to process the matrix data set and realize the prediction of ticket price. This method takes into account the different influences of various factors on the ticket price, and also combines the characteristics of the trend and volatility of the ticket price. The experimental results show that the graph convolution-long and short memory model can be used to predict the air ticket price well.
+In recent years, as an important industry in national economic and social development and an advanced mode of transportation, the demand for civil aviation passenger transport has been growing rapidly along with the rapid development of national economy and the substantial increase of people's income. Air fare has always been the focus of attention because it is related to the development of civil aviation industry, the profitability of airlines and the vital interests of passengers. Pricing strategies of airlines are mostly based on revenue management theory \cite{1}\cite{2}, in which air traffic forecasting plays an important role. The forecast results can be used to dynamically adjust the ticket prices, so that the airlines can get the maximum benefits. However, the pricing mechanism of each airline is complex, and the real-time ticket price is constantly changing under the influence of many factors, which has the characteristics of trend, randomness and volatility. Therefore, how to forecast air passenger flow accurately and reasonably has become an important content of air transport management in China.
+\par Air passenger flow prediction has been studied at home and abroad. In \cite{3}, an ensemble learning binary classification algorithm, Hamlet, is proposed based on Q-learning. Hamlet applies rule learning, reinforcement learning and time series techniques, and combines their results through superposition generalization to produce the final decision. The accuracy can reach 74.5\%. There is still much room for improvement in traffic prediction. Riedel et al. \cite{4} used autoregressive model (AR) to realize the prediction of air traffic. An AR(autoregressive model) is the regression of a variable relative to itself, using past observations to make predictions about current values. Moving average model (MA) is a regression model based on past forecasting errors. Sickles et al. \cite{5} proposed a model ARMA that combines autoregressive model and moving average model. ARIMA\cite{6} and Bayesian structured time series BSTS model\cite{7}\cite{8} are used to forecast the air passenger and cargo demand of the Indian aviation industry. Wang et al \cite{9} used gray scale model to forecast passenger flow, applied a function to the observation data set, converted it into a monotonically increasing data set, and obtained the forecast results. Nieto et al. \cite{10}proposed a new damping trend grey model (DTSM) based on dynamic seasonal damping factor, which is used to predict airline passenger demand (PAX) in the air transport industry. This model is called Sarima Damped Trend Grey Prediction Model (SDTGM), which can effectively improve the accuracy of prediction.
+\par The classical time series model is based on the assumption that there is a linear relationship between the past and the future value, but the time series model to predict the traffic demand data must have correlation, because the passenger flow is affected by various factors change, trend and randomness and volatility characteristics, will also affect the forecast of air flow. Causal models attempt to establish an explanatory equation that adequately describes the observation as the output of one or more underlying causative factors. Liu et al \cite{11} proposed to use the probability logarithmic model to predict passenger flow, establish factors that can explain past demands, and then use the model to provide predicted values. Logit models, such as multinomial models, nested models and cross-nested models, are widely used in demand prediction of passenger selection models \cite{12}.
+\par It is a good trend to apply machine learning technology to solve nonlinear time series problems. Various machine learning algorithms have been studied and deployed. Neural Network model \cite{13}\cite{14} is widely used in long-term demand prediction. Tsai et al. \cite{15} use them for short-term demand forecasting. They compared two advanced formulas, MTUNN and Penn, with the general multilayer perceptron model. Wei and Chen\cite{16} used hybrid neural network model to predict passenger flow in rapid transit systems. A Bayesian state-space model can be created by generating the current state matrix from the observed data in the time series \cite{17}. SVM support vector machine is regarded as a classification tool, and support vector regression aims to identify and optimize the error range of regression. Jiang et al. \cite{18}applied grey SVM combined with empirical mode decomposition (EMD) to high-speed railway passenger flow prediction. Xie et al. \cite{19} used EMD to model passenger flow prediction of airport terminals by least squares support vector machine. Weng et al \cite{20} applied the hybrid model combining LSTM and LightTGBM to air ticket sales prediction. Artificial intelligence or machine learning models are computation-intensive self-learning algorithms that iteratively modify and fine-tune the interpretation model through the evaluation results, and reduce the margin of error. However, the above machine learning based method is based on the historical data of each air station forecast, this method does not take into account the impact of ticket prices and the ridership flow of other stations and the current ridership flow of the station, so the prediction performance is poor.
+\par Graphic Convolutional Neural Network (GCN), as a Neural Network that can extract unstructured data, has attracted a lot of attention in solving the relationship between adjacent points \cite{21}\cite{22}. In view of the low accuracy of air passenger flow prediction and the trend, randomness and volatility of air traffic affected by many factors, we built a graph convolution-long short-term memory model based on graph convolutional neural network and long short-term memory (LSTM) neural network. In this model, the GCN is used to map the features of the data set. Then the LSTM model are used to process the matrix data set, and the fare prediction is realized. The method considers the different effects of various factors on the ticket price, and combines the trend and fluctuation characteristics of the ticket price. The experimental results show that the graph convolution model of long memory and short memory can predict the air ticket price well. Our contributions are summaried as
+\par (1) In order to improve the feature extraction ability of aviation data, we have a deep understanding of the data characteristics of aviation data. By constructing a GCN feature extractor, we can transform non-European spatial data into concise and efficient features. This method improves the feature expression ability of the data.
+\par (2) In order to solve the problem of long term and short term dependence of time series data, in this paper, we introduce LSTM network to solve the data dependence of samples through logical gating unit, and further improve the performance of prediction.
+\par (3)  The air flow prediction scheme based on GCN-LSTM shows excellent performance on the existing aviation data. The experimental results show that the prediction performance of the proposed algorithm is obviously better than that of other existing algorithms.
+
+
+
 \par The remaining part of this paper is organized as follows. The main contribution of  this paper is descripted in Section \ref{sec:2}. In Section \ref{sec:3}, two comparative experiments are used to prove the effectiveness of the algorithm. And conclusions are drawn in Section \ref{sec:4}.
 
 
@@ -182,7 +187,7 @@ In airlines, the spatial distribution of aircraft stations is a non-euclidean st
 The problem of airline passenger flow prediction can be described as follows: the historical flow data of each station $X_{t-s}, X_{t-s+1},  X_{t-2}, \cdots,  X_{t-1}$ (s is the time step) can be used to predict the flow $X_{t}$ of the next period. 
 The formula is described as
 \begin{equation}
-    X_{t} = F([ X_{t-s}, X_{t-s+1}, \cdots, X_{t-2}, X_{t-1}])
+    X_{t} = F([ X_{t-s}, X_{t-s+1}, \cdots, X_{t-2}, X_{t-1}]),
 \end{equation}
 where, $X$ is the site characteristics at each time step, and $F$ is a nonlinear function.
 \par In the actual traffic system, the network is regarded as a directed graph $G = (Q, V, A)$. Each sensor in the  network is regarded as a node $v_{i}$ and its value $Q \in R$ is a scalar. $V \in R^{N}$ and $N$ is the number of sensors. 
@@ -191,26 +196,26 @@ The flow relationship between nodes consists of adjacency matrix $A$ that is, th
 \subsection{The description of the GCN} 
 When dealing with the structure of the graph, it is necessary to obtain its Laplace matrix $L$, which is generally defined in the following ways:
 \begin{equation}
-    L=D^{-\frac{1}{2}}(D-A) D^{-\frac{1}{2}}=I_{N}-D^{-\frac{1}{2}} A D^{-\frac{1}{2}}
+    L=D^{-\frac{1}{2}}(D-A) D^{-\frac{1}{2}}=I_{N}-D^{-\frac{1}{2}} A D^{-\frac{1}{2}},
 \end{equation}
-where, $I_{N}$is the identity matrix of $N×N$; Degree matrix $D$ is defined as $D_{i i}=\sum_{i} A_{i j}^{i}$. Decompose the eigenvalue of $L$ to get $L = \mathrm{L}=\mathrm{U} \Lambda \mathrm{U}^{\mathrm{T}}$. $\Lambda$ is made up of L eigenvalues of diagonal matrix. $\mathrm{U}=\left\{\mathrm{u}_{1}, \mathrm{u}_{2}, \ldots, \mathrm{u}_{\mathrm{N}}\right\}$ is composed of the eigenvector L, and it is an orthonormal basis for $\mathrm{R}^{\mathrm{N}}$.
+where, $I_{N}$ is the identity matrix of $N×N$; Degree matrix $D$ is defined as $D_{i i}=\sum_{i} A_{i j}^{i}$. Decompose the eigenvalue of $L$ to get $L = \mathrm{L}=\mathrm{U} \Lambda \mathrm{U}^{\mathrm{T}}$. $\Lambda$ is made up of L eigenvalues of diagonal matrix. $\mathrm{U}=\left\{\mathrm{u}_{1}, \mathrm{u}_{2}, \ldots, \mathrm{u}_{\mathrm{N}}\right\}$ is composed of the eigenvector L, and it is an orthonormal basis for $\mathrm{R}^{\mathrm{N}}$.
 \par The spectral convolution theory in the graph structure has been supplemented and perfected in the paper. The convolution operation of convolution kernel $G$ and input signal $X$ in the time domain can be converted into the inner product form in the frequency domain.
 \begin{equation}
-    \left.g^{*} x=U\left(U^{\mathrm{T}} g\right) \odot\left(U^{\mathrm{T}} \boldsymbol{x}\right)\right)=U_{g_{\theta}}(A) U^{\mathrm{T}} x
+    \left.g^{*} x=U\left(U^{\mathrm{T}} g\right) \odot\left(U^{\mathrm{T}} \boldsymbol{x}\right)\right)=U_{g_{\theta}}(A) U^{\mathrm{T}} x,
 \end{equation}
-where $g_{s}(\Lambda)=U^{T} g=\operatorname{diag}(\theta), \theta \in R^{N}$, $\odot$ represents the hadamar product, $U^{T}g$means mapping $g$ to the frequency domain space based on $U$. Due to $g_{\theta}$ high computational complexity, so using hierarchical linear model constraints and the chebyshev polynomial to approximate calculation. In this paper, The simplified first order polynomial form of $g*x$ is adopted.
+where $g_{s}(\Lambda)=U^{T} g=\operatorname{diag}(\theta), \theta \in R^{N}$, $\odot$ represents the hadamar product, $U^{T}g$ means mapping $g$ to the frequency domain space based on $U$. Due to $g_{\theta}$ high computational complexity, so hierarchical linear model constraints and the chebyshev polynomial are used to approximate calculation. In this paper, the simplified first order polynomial form of $g^{*} x$ is adopted.
 \begin{equation}
-    g^{*} x=U_{g_{\theta}} U_{x}^{\mathrm{T}} \approx \theta\left(I_{N}+D^{-1 / 2} A D^{-1 / 2}\right) x
+    g^{*} x=U_{g_{\theta}} U_{x}^{\mathrm{T}} \approx \theta\left(I_{N}+D^{-1 / 2} A D^{-1 / 2}\right) x,
 \end{equation}
 where $\widetilde{D}^{-1 / 2} \widetilde{A} \widetilde{D}^{-1 / 2}=I_{N}+D^{-1 / 2} A D^{-1 / 2} \quad \tilde{A}=I_{N}+A $, ${D}=\sum_{i} \widetilde{A}_{i j}$, Therefore, the output of layer $L$ is
 \begin{equation}
-    H^{(l)}=\sigma\left(\widetilde{D}^{-\frac{1}{2}} \widetilde{A} \widetilde{D}^{-\frac{1}{2}} H^{(l-1)} W^{(l)}\right.
+    H^{(l)}=\sigma\left(\widetilde{D}^{-\frac{1}{2}} \widetilde{A} \widetilde{D}^{-\frac{1}{2}} H^{(l-1)} W^{(l)}\right.,
 \end{equation}
 where $\delta$ is the activation function, $\widetilde{W}^{(l)}=\theta^{(l-1)} W^{(l)}, \quad \boldsymbol{\theta}^{(l-1)} \in \boldsymbol{R}^{c^{(1-l)} \times F^{(l-1)}}, \boldsymbol{W}^{(l)} \in \boldsymbol{R}^{F^{(l-1)} \times c^{(l)}}$,  $C^{(L-1)}$ is the output dimension of the $(L-1)$ layer, and $F^{(L-1)}$ is the characteristic vector size of each dimension. Therefore
 \begin{equation}
-    H^{(l)}=\sigma\left(\widetilde{D}^{-\frac{1}{2}} \widetilde{A} \widetilde{D}^{-\frac{1}{2}} H^{(l-1)} \widetilde{W}^{(l)}\right)
+    H^{(l)}=\sigma\left(\widetilde{D}^{-\frac{1}{2}} \widetilde{A} \widetilde{D}^{-\frac{1}{2}} H^{(l-1)} \widetilde{W}^{(l)}\right).
 \end{equation}
-\par At present, there is no effective measurement method for the calculation of adjacency matrix $A$. Most scholars use heuristic methods, that is, based on the Euclidean distance or Markov distance between sensors to determine the element value corresponding to the adjacency matrix. However, these methods all require manual calculation of the distance relationship between the sensors in advance. In this paper, the data-driven method is adopted to calculate the adjacency matrix, and $A = D$, then the formula can be written as:
+\par At present, there is no effective measurement method for the calculation of adjacency matrix $A$. Most scholars use heuristic methods, that is, based on the Euclidean distance or Markov distance between sensors to determine the element value corresponding to the adjacency matrix. However, these methods all require manual calculation of the distance relationship between the sensors in advance. In this paper, the data-driven method is adopted to calculate the adjacency matrix, and $A = D$. The formula can be written as:
 \begin{equation}
     \left.H^{(l)}=\sigma / \widetilde{A} H^{(l-1)} \widetilde{W}^{(l)}\right)
     \label{equ:hl}
@@ -219,7 +224,7 @@ where $\delta$ is the activation function, $\widetilde{W}^{(l)}=\theta^{(l-1)} W
 \par GCN introduces the spatial features of the graph by convolving the Laplace matrix with the input. In this paper, the model takes flight segments as nodes and the association between flight segments as edges to build a graph. According to the graph, the adjacency matrix is obtained and the demand of future flight segments is predicted by combining the price and demand of historical flight segments.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The problem of time series}
-It is found that Recurrent Neural networks (RNN) are widely used in sequential data such as natural language and image processing, which have a significant effect. Since then, various types of circulating neural networks have been proposed. Aiming at the problem of air passenger flow prediction, this paper introduces the Long Short-Term Memory network (LSTM), which can extract the characteristic information of the input sequence and find its internal relation, so as to improve the prediction accuracy of the model. In order to make use of the spatial and temporal characteristics of the data at the same time, the GCN model is combined with the LSTM model, and the GCN module is added to the output of the upper level.
+It is found that Recurrent Neural networks (RNN) are widely used in sequential data such as natural language and image processing, which have a significant effect. Since then, various types of Circulating Neural Networks have been used. Aiming at the problem of air passenger flow prediction, this paper introduces the LSTM, which can extract the characteristic information of the input sequence and find its internal relation, so as to improve the prediction accuracy of the model. In order to make use of the  spatial-temporal characteristic of the airborne data information at the same time, the GCN model is combined with the LSTM model, and it is added to the output of the upper level.
 \par The LSTM network structure used in this paper is shown as Figure \ref{fig:lstm}.
 \begin{figure}
     \centering
@@ -228,39 +233,41 @@ It is found that Recurrent Neural networks (RNN) are widely used in sequential d
     \label{fig:lstm}
 \end{figure}
 \par The network model mainly accepts three inputs: $X$, $H$ and $C$ represent the current state, hidden layer state and cell state, respectively.
-\par LSTM mainly realizes the management of long and short term memory through three gating units. The first step in the LSTM is to determine what information needs to be thrown out of the cell state. This decision is made by a sigmoid layer called the "Forget Gate." Input x and h, output a number between 0 and 1. The value of 1 means "keep the value completely", while 0 means "throw the value away completely". The formula of forgetting gate is as follows:
+\par LSTM mainly realizes the management of long and short term memory through three gating units. 
+Firstly, the LSTM needs to determine what information needs to be thrown out. 
+This step is decided by the layer called the "Forget Gate". Input $x$ and $h$, output a number between 0 and 1. The value of 1 means "keep the value completely", while 0 means "throw the value away completely". The formula of forgetting gate is as follows:
 \begin{equation}
-    f_{t}=\sigma\left(W_{f} \cdot\left[h_{t-1}, x_{t}\right]+b_{f}\right)
+    f_{t}=\sigma\left(W_{f} \cdot\left[h_{t-1}, x_{t}\right]+b_{f}\right),
 \end{equation}
 where $W_{f}$ and $b_{f}$ are the parameters to be learned, and $\sigma$ is the sigmod activation function.
-\par The second step is to determine what information we need to store in the Cell State. There are two parts to this question. First, a sigmod layer calls the "Input Gate" to determine which data needs to be updated. Then, a tanh layer creates a vector $C_{1}$.
+\par Secondly, the LSTM needs to determine what information need to store in the cell state. There are two stage to this question. First, the layer of "Input Gate" determine which data needs to be updated. Then, the vector $C_{1}$ was created by a tanh layer .
 \begin{equation}
     \begin{aligned}
-    i_{t} &=\sigma\left(W_{i} \cdot\left[h_{t-1}, x_{t}\right]+b_{i}\right) \\
-    \tilde{C}_{t} &=\tanh \left(W_{C} \cdot\left[h_{t-1}, x_{t}\right]+b_{C}\right)
+    i_{t} &=\sigma\left(W_{i} \cdot\left[h_{t-1}, x_{t}\right]+b_{i}\right), \\
+    \tilde{C}_{t} &=\tanh \left(W_{C} \cdot\left[h_{t-1}, x_{t}\right]+b_{C}\right).
     \end{aligned}
 \end{equation}
-\par After deciding what needs to be forgotten and what needs to be added, the old cell state $C_{t-1}$ can be updated to the new cell state $C_{t}$.
+\par After deciding what needs to be forgotten and what needs to be added, $C_{t-1}$ can be updated to  $C_{t}$.
 \begin{equation}
-    C_{t}=f_{t} * C_{t-1}+i_{t} * \tilde{C}_{t}
+    C_{t}=f_{t} * C_{t-1}+i_{t} * \tilde{C}_{t}.
 \end{equation}
-\par Finally, we need to decide what to export. This output is based on our cell state, but will be a filtered part of the value. First, we run an output gate to determine which part of the cell state we are going to output. Then we put the cell state into the tanh (pressing the value between -1 and 1), and finally we multiply it by the output of the output gate.
+\par Finally, we need to decide what to export. This output is based on our cell state. The final output is part of the cell state. First, we run an output gate to determine which part of the cell state we are going to output. Then we put the cell state into the tanh (pressing the value between -1 and 1). Finally we multiply it by the output of the output gate.
 \begin{equation}
     \begin{array}{l}
-    o_{t}=\sigma\left(W_{o}\left[h_{t-1}, x_{t}\right]+b_{o}\right) \\
-    h_{t}=o_{t} * \tanh \left(C_{t}\right)
+    o_{t}=\sigma\left(W_{o}\left[h_{t-1}, x_{t}\right]+b_{o}\right), \\
+    h_{t}=o_{t} * \tanh \left(C_{t}\right).
     \end{array}
 \end{equation}
 \subsection{The description of algorithm}
 The network structure based on GCN-LSTM model proposed in this paper is shown in the Fig. \ref{fig:GCN-LSTM}. The model mainly adopts encoder-decoder structure. In the encoder, multiple parallel GCN modules are used to extract the key features of the graph network with different time series. Then, the extracted time series features are transmitted to LSTM, and feature analysis and further feature extraction are carried out on the sequence data through LSTM to solve the long-term and short-term dependencies between the data. Finally, the encoder generates an encoded pair vector and sends it to the decoder. In the decoder, the multi-layer feedforward neural network is used to further process the features of the coding vector. Finally, the processed data is transmitted to a GCN network to produce predicted values.
 \par  In order to improve the prediction performance of the GCN-LSTM algorithm, in this paper, we use the final output through the network and the value of the real label to calculate $L_{1}$ loss, also known as the mean absolute error (MAE), and take the mean square error (MSE) as the evaluation index of the model. The specific calculation formula is as:
 \begin{equation}
-    \operatorname{loss}=M A E=\frac{1}{m} \sum_{i=1}^{m}\left|\left(y_{i}-\hat{y}_{i}\right)\right|
+    \operatorname{loss}=M A E=\frac{1}{m} \sum_{i=1}^{m}\left|\left(y_{i}-\hat{y}_{i}\right)\right|.
 \end{equation}
 \begin{equation}
-    M S E=\frac{1}{m} \sum_{i=1}^{m}\left(\left(y_{i}-\hat{y}_{i}\right)\right)^{2}
+    M S E=\frac{1}{m} \sum_{i=1}^{m}\left(\left(y_{i}-\hat{y}_{i}\right)\right)^{2}.
 \end{equation}
-\par In this paper, the Adam-based batch gradient descent optimization algorithm  is used to learn and update parameters through the loss function to minimize the loss function until the loss function converges. The trained model is used to predict the test set and calculate the MSE. The smaller the MSE value is, the closer the predicted value of the model is to the real value and the better the generalization ability of the model is.
+\par In this paper, the Adam-based batch gradient descent optimization algorithm is used to learn and update parameters through the loss function to minimize the loss function until the loss function converges. The trained model is used to predict the test set and calculate the MSE. The smaller the MSE value is, the closer the predicted value of the model is to the real value and the better the generalization ability of the model is.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=12 cm]{./imgs/GCN-LSTM.png}
@@ -269,8 +276,64 @@ The network structure based on GCN-LSTM model proposed in this paper is shown in
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiments}\label{sec:3}
+% This paper selects 6,9111,332 ticket sales data examples of 28,809 flights of 17 domestic airlines between September 1, 2020 and October 31, 2020 to verify the feasibility and effectiveness of the GCN-LSTM combined prediction model. The selected data set is relatively complete without missing values. After obtaining a complete data set, an adjacency matrix is constructed according to the data set. Each flight segment is a node. Between nodes, if the origin is the same, it is considered to have a diverting effect on traffic, and the weight is set as the number of (0,1). If the destination is the same and the traffic is considered to be promoted, the weight is set as the number greater than 1 and the rest as 0.
+% \par Five sections of AAT\_URC, CAN\_PEK, CAN\_CSX, CAN\_CTU and CAN\_CKG are taken as examples to construct an adjacency matrix, in which AAT, URC, CAN, PEK, CSX, CTU and CKG are city names.
+% \begin{table}[htbp]
+%     \centering
+% 	\caption{Adjacent Matrix.}
+% 	\begin{tabular}{cccccc}
+% 		\toprule
+% 		& AAT\_URC	& CAN\_PEK  &  CAN\_CSX  &  CAN\_CTU  &  CAN\_CKG\\
+% 		\midrule
+% 		AAT\_URC		& 0	& 0.0  &  0.0 & 0.0 & 0.0 \\
+% 		CAN\_PEK		& 0	& 0.0  &  0.5 & 0.5 & 0.5\\
+%         CAN\_CSX     & 0	& 0.5  &  0.0 & 0.5 & 0.5\\
+%         CAN\_CTU     & 0	& 0.5  &  0.5 & 0.0 & 0.5\\
+%         CAN\_CKG     & 0	& 0.5  &  0.5 & 0.5 & 0.0\\
+% 		\bottomrule
+% 	\end{tabular}
+% \end{table}
+
+% \par Time series features are constructed. The above five flight sections are also taken as examples. According to the take-off time, the price series 14 days before the take-off time is taken as the X feature. The flow of 1 day before the take-off was taken as Y, and such input and output were a sample. The take-off time was calculated forward to increase the number of samples. In this way, there are 14 days' time data, 1 piece of demand data, arranged in a time series according to time.
+% \par In this paper, the data set of two months is divided into training set and test set according to the ratio of 8:2, normalized, and trained by GCN-LSTM. The timing step size of the model is 15, and the window is constantly moved to predict. Under the premise of the same input of historical price time series, it is compared with the experimental results of traditional AR model, Moving Average, Exponential Smoothing, LSTM and SVR.
+
+% \par Table 2 lists five precise results of route prediction, which show that the GCN-LSTM model can improve the accuracy of prediction.
+% \begin{table}[htbp]
+%     \centering
+% 	\caption{Prediction results MSE.}
+% 	\begin{tabular}{ccccccc}
+% 		\toprule
+% 		& GCN-LSTM	& LSTM  &  SVR  &  AR  &  MA  & ES\\
+% 		\midrule
+% 		Average of five routes	& 6.86\% & 10.84\%  &  12.72\% & 14.46\% & 13.73\%  &  16.93\%   \\
+%         AAT\_URC     & 5.44\% & 8.71\% & 10.73\% & 11.37\% & 10.74\% & 14.39\% \\
+% 		CAN\_PEK		& 6.91\% & 9.74\% & 12.02\% & 12.75\% & 11.71\% & 16.47\% \\
+%         CAN\_CSX     & 8.87\% & 12.03\% & 13.07\% & 17.13\% & 14.57\% & 18.29\% \\
+%         CAN\_CTU     & 6.24\% & 11.73\% & 14.35\% & 15.01\% & 13.79\% & 17.48\\
+%         CAN\_CKG     & 6.84\% & 11.99\% & 13.43\% & 16.04\% & 17.84\% & 18.02\%\\
+% 		\bottomrule
+% 	\end{tabular}
+% \end{table}
+% % \par Fig.4, taking a single airline of AAT_URC as an example, the GCN-LSTM method is used. The horizontal axis represents the departure date from September 15, 2020 to October 31, 2020, the dot represents the actual passenger flow on that day, and the square represents the passenger flow predicted according to the price time series of the first 14 days.
+
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=12 cm]{./imgs/predicted.png}
+%     \caption{OGCN-LSTM model prediction results of AAT URC route.}
+%     \label{fig:predicted}
+% \end{figure}
+
+% \par Fig.5 shows the average MSE values predicted by AR model, moving average, exponential smoothing, LSTM and SSR for five airlines. The red line is the prediction results of GCN-LSTM model.It can be seen from the figure that the GCN-LSTM model is used for prediction, and the error fluctuation is small, and the MSE is basically in the range of 5\%-9\%.The prediction results of this model are obviously better than those of other models.
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=12 cm]{./imgs/duibi.png}
+%     \caption{Comparison of MSE results of five airlines.}
+%     \label{fig:duibi}
+% \end{figure}
+
 This paper selects 6,9111,332 ticket sales data examples of 28,809 flights of 17 domestic airlines between September 1, 2020 and October 31, 2020 to verify the feasibility and effectiveness of the GCN-LSTM combined prediction model. The selected data set is relatively complete without missing values. After obtaining a complete data set, an adjacency matrix is constructed according to the data set. Each flight segment is a node. Between nodes, if the origin is the same, it is considered to have a diverting effect on traffic, and the weight is set as the number of (0,1). If the destination is the same and the traffic is considered to be promoted, the weight is set as the number greater than 1 and the rest as 0.
-\par Five sections of AAT\_URC, CAN\_PEK, CAN\_CSX, CAN\_CTU and CAN\_CKG are taken as examples to construct an adjacency matrix, in which AAT, URC, CAN, PEK, CSX, CTU and CKG are city names.
+\par Five sections of AAT\_URC, CAN\_PEK, CAN\_CSX, CAN\_CTU and CAN\_CKG are taken as examples to construct an adjacency matrix, in which AAT, URC, CAN, PEK, CSX, CTU and CKG are city names. If the origin of two flight sections is the same, it is considered to have a diversion effect on traffic, and the weight is set as 0.5. None of the five sections had the same destination, so the rest of the weights were set to 0.
+
 \begin{table}[htbp]
     \centering
 	\caption{Adjacent Matrix.}
@@ -282,15 +345,14 @@ This paper selects 6,9111,332 ticket sales data examples of 28,809 flights of 17
 		CAN\_PEK		& 0	& 0.0  &  0.5 & 0.5 & 0.5\\
         CAN\_CSX     & 0	& 0.5  &  0.0 & 0.5 & 0.5\\
         CAN\_CTU     & 0	& 0.5  &  0.5 & 0.0 & 0.5\\
-        CAN\_CKG     & 0	& 0.5  &  0.5 & 0.5 & 0.0\\
+        CAN\_CKG     & 0	& 0.5  &  0.5 & 0.5 & 0.0 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-\par Time series features are constructed. The above five flight sections are also taken as examples. According to the take-off time, the price series 14 days before the take-off time is taken as the X feature. The flow of 1 day before the take-off was taken as Y, and such input and output were a sample. The take-off time was calculated forward to increase the number of samples. In this way, there are 14 days' time data, 1 piece of demand data, arranged in a time series according to time.
-\par In this paper, the data set of two months is divided into training set and test set according to the ratio of 8:2, normalized, and trained by GCN-LSTM. The timing step size of the model is 15, and the window is constantly moved to predict. Under the premise of the same input of historical price time series, it is compared with the experimental results of traditional AR model, Moving Average, Exponential Smoothing, LSTM and SVR.
-
-\par Table 2 lists five precise results of route prediction, which show that the GCN-LSTM model can improve the accuracy of prediction.
+\par Time series features are constructed. The above five flight sections are also taken as examples. According to the take-off time, the price series 14 days before the take-off time is taken as the X feature. The flow of 1 day before the take-off was taken as Y, and such input and output were a sample. The take-off time was calculated forward to increase the number of samples. In this way, there are 14 days' time data, one piece of demand data, arranged in a time series according to time.
+\par In this paper, the data set of two months is divided into training set and test set according to the ratio of 8:2, normalized, and trained by GCN-LSTM. The timing step size of the model is 15, and the window is constantly moved to predict. Under the premise of the same input of historical price time series, it is compared with the experimental results of traditional AR model, Moving Average(MA), Exponential Smoothing(ES), Long short-term memory(LSTM) and Support Vector Regression(SVR).
+\par Table \ref{table:2} lists five precise results of route prediction, The prediction mean square error (MSE) of the proposed GCN-LSTM model is smaller than that of LSTM, SVR, AR, moving average(MA) and exponential smoothing model(ES).The results show that the GCN-LSTM model can improve the accuracy of prediction.
 \begin{table}[htbp]
     \centering
 	\caption{Prediction results MSE.}
@@ -305,10 +367,11 @@ This paper selects 6,9111,332 ticket sales data examples of 28,809 flights of 17
         CAN\_CTU     & 6.24\% & 11.73\% & 14.35\% & 15.01\% & 13.79\% & 17.48\\
         CAN\_CKG     & 6.84\% & 11.99\% & 13.43\% & 16.04\% & 17.84\% & 18.02\%\\
 		\bottomrule
-	\end{tabular}
+    \end{tabular}
+    \label{table:2}
 \end{table}
-% \par Fig.4, taking a single airline of AAT_URC as an example, the GCN-LSTM method is used. The horizontal axis represents the departure date from September 15, 2020 to October 31, 2020, the dot represents the actual passenger flow on that day, and the square represents the passenger flow predicted according to the price time series of the first 14 days.
 
+\par AAT\_URC a single route, for example, using the proposed GCN - LSTM traffic prediction model, the horizontal axis shows departure date from September 15, 2020 to October 31, 2020, 14 days before the use of the time sequence to forecast the traffic on the same day price, compare the renderings as shown in figure 4, dot says the actual passenger flow, square said according to 14 days before the price time series prediction of passenger flow.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=12 cm]{./imgs/predicted.png}
@@ -316,16 +379,14 @@ This paper selects 6,9111,332 ticket sales data examples of 28,809 flights of 17
     \label{fig:predicted}
 \end{figure}
 
-\par Fig.5 shows the average MSE values predicted by AR model, moving average, exponential smoothing, LSTM and SSR for five airlines. The red line is the prediction results of GCN-LSTM model.It can be seen from the figure that the GCN-LSTM model is used for prediction, and the error fluctuation is small, and the MSE is basically in the range of 5\%-9\%.The prediction results of this model are obviously better than those of other models.
+\par Fig. 5 shows the average MSE values predicted by AR model, moving average, exponential smoothing, LSTM and SSR for 5 airlines. The horizontal axis represents five different airlines, the vertical axis represents square error (MSE), and the red line is the prediction results of the proposed GCN-LSTM model.
+It can be seen from the figure that the GCN-LSTM model is used for prediction, and the error fluctuation is small, and the MSE is basically in the range of 5\%-9\. The prediction results of the proposed GCN-LSTM model are obviously better than those of other models.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=12 cm]{./imgs/duibi.png}
     \caption{Comparison of MSE results of five airlines.}
     \label{fig:duibi}
 \end{figure}
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}\label{sec:4}
 In view of the problems existing in air flow prediction, an air flow prediction model based on graph convolutional neural network and long short-term memory network is proposed based on in-depth analysis of the influencing factors of air flow prediction. Firstly, based on the characteristics of air traffic data, a feature extraction network based on graph convolutional neural network is designed. Then combined with the long - short memory network to solve the problem of long - short - term data dependence; Finally, the prediction results are outputted based on the feedforward neural network. In the experimental part, we verify the performance of the GCNLSTM model on aviation data sets. The experimental results show that the prediction results of this model are obviously more accurate than the existing algorithms, and it has higher prediction performance.
